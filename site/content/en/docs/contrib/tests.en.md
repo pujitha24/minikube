@@ -28,10 +28,6 @@ correctly and can route traffic.
 What we test:
 Path-based HTTP ingress from the host (or via SSH in the guest VM if port forwarding is needed).
 
-Requires:
-Outbound internet access from the guest VM/container (needed to download helm/charts).
-The test will be skipped if there is no outbound connectivity.
-
 ## TestAddons
 tests addons that require no special environment in parallel
 
@@ -544,10 +540,6 @@ verifies a soft restart on a ha (multi-control plane) cluster works.
 
 #### validateHAAddSecondaryNode
 uses the minikube node add command to add a secondary control-plane node to an existing ha (multi-control plane) cluster.
-
-## TestHelmInstall
-verifies that InstallHelm can install, upgrade, and
-re-install helm inside a live node.
 
 ## TestImageBuild
 makes sure the 'minikube image build' command works fine

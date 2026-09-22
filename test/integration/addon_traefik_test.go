@@ -40,10 +40,6 @@ import (
 //
 // What we test:
 // Path-based HTTP ingress from the host (or via SSH in the guest VM if port forwarding is needed).
-//
-// Requires:
-// Outbound internet access from the guest VM/container (needed to download helm/charts).
-// The test will be skipped if there is no outbound connectivity.
 func TestTraefikAddon(t *testing.T) {
 	MaybeParallel(t)
 
@@ -55,12 +51,6 @@ func TestTraefikAddon(t *testing.T) {
 	rr, err := Run(t, exec.CommandContext(ctx, Target(), startArgs...))
 	if err != nil {
 		t.Fatalf("failed to start minikube: args %q: %v", rr.Command(), err)
-	}
-
-	// Verify guest VM has outbound internet access (needed to download helm/charts).
-	rr, err = Run(t, exec.CommandContext(ctx, Target(), "-p", profile, "ssh", "curl -fsSL --max-time 10 -o /dev/null https://get.helm.sh/helm3-latest-version"))
-	if err != nil {
-		t.Skip("skipping: guest VM/container has no outbound internet access (required to download helm/charts): https://github.com/kubernetes/minikube/issues/23275")
 	}
 
 	// Enable the traefik addon
